@@ -20,7 +20,26 @@ curl_close($ch);
 // Using access token to get user's bungie account
 $accesstoken = $response->Response->accessToken->value;
 
-setcookie("bungie_access_token", $accesstoken, time()+3600);
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL,'https://www.bungie.net/Platform/User/GetCurrentBungieAccount/');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+
+$userinfojson = curl_exec($ch);
+$userinfo = json_decode($userinfojson);
+$membership_id = $userinfo->Response->destinyAccounts[0]->userInfo->membershipId;
+$membership_type = $userinfo->Response->destinyAccounts[0]->userInfo->membershipType;
+$first_character_id = $userinfo->Response->destinyAccounts[0]->characters[0]->characterId;
+curl_close($ch);
+
+setcookie("bungie_access_token", $accesstoken, time() + 3600);
+setcookie("membership_id", $membership_id, time() + 3600);
+setcookie("membership_type", $membership_type, time() + 3600);
+setcookie("first_character_id", $first_character_id, time() + 3600);
 
 ?>
 
@@ -30,10 +49,11 @@ setcookie("bungie_access_token", $accesstoken, time()+3600);
  </head>
  <body>
     <h1>Admin - Login APIs</h1>
-    <h2>[This is page should not be visible to public]</h2>
-    <h3><?php echo $accesstoken ?></h3>
+    <h3><?php echo $membership_id ?></h3>    
+    <h3><?php echo $first_character_id ?></h3>    
     <ul>
         <li><a href="login-userinfo.php">Login User Info</a></li>
+        <li><a href="login-vendorinfo.php">Login Vendor Info</a></li>
     </ul>
  </body>
 </html>

@@ -27,7 +27,6 @@ curl_close($ch);
  </head>
  <body>
     <h1>Admin - Login User Info</h1>
-    <h2>[This is page should not be visible to public]</h2>
     <h3><?php echo $accesstoken ?></h3>
     <p><?php echo $userinfo ?></p>
  </body>
