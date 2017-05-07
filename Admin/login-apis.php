@@ -46,14 +46,14 @@ setcookie("first_character_id", $first_character_id, time() + 3600);
 <html>
  <head>
   <title>Welcome to /r/DTG/</title>
+    <link rel="stylesheet" type="text/css"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  </head>
  <body>
-    <h1>Admin - Login APIs</h1>
-    <h3><?php echo $membership_id ?></h3>    
-    <h3><?php echo $first_character_id ?></h3>    
-    <ul>
-        <li><a href="login-userinfo.php">Login User Info</a></li>
-        <li><a href="login-vendorinfo.php">Login Vendor Info</a></li>
-    </ul>
+     <div class="container">
+        <h1>Admin - Login APIs</h1>
+        <ul>
+            <li><a class="btn btn-primary" href="login-vendorinfo.php">Vendor Info</a></li>
+        </ul>
+    </div>
  </body>
 </html>
