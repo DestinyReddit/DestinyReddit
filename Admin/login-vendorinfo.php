@@ -173,6 +173,7 @@ curl_close($ch);
                 echo "<td>" . $armor->roll . "%" . "</td>";
                 echo "<td>" . $armor->t12 . "</td>";
                 echo "</tr>";
+
         }
         
         echo "</table>";
