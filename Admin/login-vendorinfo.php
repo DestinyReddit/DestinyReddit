@@ -32,7 +32,7 @@ curl_close($ch);
  </head>
  <body>
  <div class="container">
-    <h1>Admin - Login Vendor Info</h1>
+    <h1>Admin - Vendor Info</h1>
     <?php 
     
         echo "<h3>Warlock Vanguard</h3>";

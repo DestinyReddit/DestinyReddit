@@ -24,10 +24,13 @@ curl_close($ch);
 <html>
  <head>
   <title>Welcome to /r/DTG/</title>
+  <link rel="stylesheet" type="text/css"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  </head>
  <body>
-    <h1>Admin - Login User Info</h1>
-    <h3><?php echo $accesstoken ?></h3>
-    <p><?php echo $userinfo ?></p>
+        <div class="container">
+                <h1>Admin - Login User Info</h1>
+                <h3><?php echo $accesstoken ?></h3>
+                <p><?php echo $userinfo ?></p>
+        </div>
  </body>
 </html>
