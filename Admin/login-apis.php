@@ -52,7 +52,7 @@ setcookie("first_character_id", $first_character_id, time() + 3600);
      <div class="container">
         <h1>Admin - Login APIs</h1>
         <ul>
-            <li><a class="btn btn-primary" href="login-vendorinfo.php">Vendor Info</a></li>
+            <li><a class="btn btn-primary" href="login-vendorinfo.php">Vendor Armor</a></li>
         </ul>
     </div>
  </body>
