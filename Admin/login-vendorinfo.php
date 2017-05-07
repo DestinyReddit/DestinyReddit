@@ -40,21 +40,78 @@ curl_close($ch);
     <h1>Admin - Vendor Info</h1>
     <?php 
     
-        echo "<h3>Warlock Vanguard</h3>";
         echo "<table class='table table-condensed table-striped'>";
-        echo "<tr><th>Hash</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Stats</th> <th>T12</th> </tr>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>T12</th> </tr>";
         foreach($salesitems->Response->data->saleItemCategories as $saleCategories)
         {
                 foreach($saleCategories->saleItems as $saleitem)
-                {                        
+                {       
+                        //Hash
                         $itemhash = $saleitem->item->itemHash;
+
+                        //Item Name
+                        $itemname = $salesitems->Response->definitions->items->$itemhash->itemName;
+
+                        //Item Type
+                        if(isset($salesitems->Response->definitions->items->$itemhash->itemTypeName)) {
+                                $itemtype = $salesitems->Response->definitions->items->$itemhash->itemTypeName;
+                        } else {
+                                $itemtype = "";
+                        }
+
+                        //Intellect
+                        $intellect = 0;
+                        foreach($saleitem->item->stats as $stat) {
+                                if($stat->statHash == 144602215) 
+                                        $intellect = $stat->value;                               
+                        }
+                        
+                         //Discipline
+                         $discipline = 0;
+                        foreach($saleitem->item->stats as $stat) {
+                                if($stat->statHash == 1735777505) 
+                                        $discipline = $stat->value;
+                        }
+
+
+                        //Strength
+                        $strength = 0;
+                        foreach($saleitem->item->stats as $stat) {
+                                if($stat->statHash == 4244567218) 
+                                        $strength = $stat->value;
+                        }
+
+                        //Perk 1
+                        $perk1 = "";
+                        if(isset($saleitem->item->perks[0]->perkHash)) {
+                                $perk1hash = $saleitem->item->perks[0]->perkHash;
+                                $perk1 = $salesitems->Response->definitions->perks->$perk1hash->displayName;
+                        }
+
+                        //Perk 2
+                        $perk2 = "";
+                        if(isset($saleitem->item->perks[1]->perkHash)) {
+                                $perk2hash = $saleitem->item->perks[1]->perkHash;
+                                $perk2 = $salesitems->Response->definitions->perks->$perk2hash->displayName;
+                        }
+
+                        //Perk 3
+                        $perk3 = "";
+                        if(isset($saleitem->item->perks[2]->perkHash)) {
+                                $perk3hash = $saleitem->item->perks[2]->perkHash;
+                                $perk3 = $salesitems->Response->definitions->perks->$perk2hash->displayName;
+                        }
+
                         echo "<tr>" ;
-                        echo "<td>" . $itemhash . "</td>";
-                        echo "<td>" . $salesitems->Response->definitions->items->$itemhash->itemName . "</td>";
-                        echo "<td>" . "" . "</td>";
-                        echo "<td>" . "" . "</td>";
-                        echo "<td>" . "" . "</td>";
-                        echo "<td>" . "" . "</td>";
+                        echo "<td>" . "Warlock Vanguard" . "</td>";
+                        echo "<td>" . $itemname . "" . "</td>";
+                        echo "<td>" . $itemtype . "" . "</td>";                        
+                        echo "<td>" . $perk1 . "</td>";
+                        echo "<td>" . $perk2 . "</td>";
+                        echo "<td>" . $perk3 . "</td>";
+                        echo "<td>" . $intellect . "</td>";
+                        echo "<td>" . $discipline . "</td>";
+                        echo "<td>" . $strength . "</td>";
                         echo "<td>" . "" . "</td>";
                         echo "</tr>";
                 }
