@@ -134,8 +134,6 @@ curl_close($ch);
                                 $t12 = "T12";
                         }
 
-
-
                         echo "<tr>" ;
                         echo "<td>" . "Warlock Vanguard" . "</td>";
                         echo "<td>" . $itemname . "" . "</td>";
