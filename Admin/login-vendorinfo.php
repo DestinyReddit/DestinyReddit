@@ -41,7 +41,7 @@ curl_close($ch);
     <?php 
     
         echo "<table class='table table-condensed table-striped'>";
-        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>T12</th> </tr>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll %</th> <th>T12</th> </tr>";
         foreach($salesitems->Response->data->saleItemCategories as $saleCategories)
         {
                 foreach($saleCategories->saleItems as $saleitem)
@@ -66,13 +66,12 @@ curl_close($ch);
                                         $intellect = $stat->value;                               
                         }
                         
-                         //Discipline
-                         $discipline = 0;
+                        //Discipline
+                        $discipline = 0;
                         foreach($saleitem->item->stats as $stat) {
-                                if($stat->statHash == 1735777505) 
-                                        $discipline = $stat->value;
+                        if($stat->statHash == 1735777505) 
+                                $discipline = $stat->value;
                         }
-
 
                         //Strength
                         $strength = 0;
@@ -102,6 +101,39 @@ curl_close($ch);
                                 $perk3 = $salesitems->Response->definitions->perks->$perk2hash->displayName;
                         }
 
+                        //Roll %
+                        $roll = 0;
+                        $pos = strpos(strtolower($itemtype), 'gauntlets');
+                        if($pos !== false) {
+                                $roll = round((($intellect/41 + $discipline/41 + $strength/41) / 2) * 100);
+                        }
+                        $pos = strpos(strtolower($itemtype), 'leg');
+                        if($pos !== false) {
+                                $roll = round((($intellect/56 + $discipline/56 + $strength/56) / 2) * 100);
+                        }
+                        $pos = strpos(strtolower($itemtype), 'warlock bond');
+                        if($pos !== false) {
+                                $roll = round((($intellect/25 + $discipline/25 + $strength/25) / 2) * 100);
+                        }
+                        $pos = strpos(strtolower($itemtype), 'chest armor');
+                        if($pos !== false) {
+                                $roll = round((($intellect/61 + $discipline/61 + $strength/61) / 2) * 100);
+                        }
+                        $pos = strpos(strtolower($itemtype), 'shell');
+                        if($pos !== false) {
+                                $roll = round((($intellect/25 + $discipline/25 + $strength/25) / 2) * 100);
+                        }
+                        $pos = strpos(strtolower($itemtype), 'helmet');
+                        if($pos !== false) {
+                                $roll = round((($intellect/46 + $discipline/46 + $strength/46) / 2) * 100);
+                        }
+
+                        //T12
+                        $t12 = "";
+                        if($roll >= 96) {
+                                $t12 = "T12";
+                        }
+
                         echo "<tr>" ;
                         echo "<td>" . "Warlock Vanguard" . "</td>";
                         echo "<td>" . $itemname . "" . "</td>";
@@ -112,7 +144,8 @@ curl_close($ch);
                         echo "<td>" . $intellect . "</td>";
                         echo "<td>" . $discipline . "</td>";
                         echo "<td>" . $strength . "</td>";
-                        echo "<td>" . "" . "</td>";
+                        echo "<td>" . $roll . "%" . "</td>";
+                        echo "<td>" . $t12 . "</td>";
                         echo "</tr>";
                 }
         }
