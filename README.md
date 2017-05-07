@@ -1,6 +1,7 @@
 # DestinyReddit
 This is what powers the /r/DestinyTheGame subreddits site.
 
+
 ## 1. Create a Bungie Application here https://www.bungie.net/en/Application.
 
     a. Fill in "Application Name"

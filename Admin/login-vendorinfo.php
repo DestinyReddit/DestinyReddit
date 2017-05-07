@@ -12,6 +12,11 @@ $ch = curl_init();
 $warlockVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $first_character_id . "/Vendor/1575820975/" . "?definitions=true";
 
 curl_setopt($ch, CURLOPT_URL, $warlockVanguardURL);
+
+$url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $first_character_id . "/Vendor/1575820975/" . "?definitions=true";
+
+curl_setopt($ch, CURLOPT_URL, $url);
+
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,

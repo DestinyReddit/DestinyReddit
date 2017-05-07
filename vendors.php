@@ -6,6 +6,6 @@
  <body>
      <div class="container">
         <?php echo '<p>This is where the actual vendor inventory will show up for the public.</p>'; ?> 
-        </div>
+      </div>
  </body>
-</html>
+ </html>
