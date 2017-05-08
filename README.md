@@ -2,20 +2,25 @@
 This is what powers the /r/DestinyTheGame subreddits site.
 
 
-## 1. Create a Bungie Application here https://www.bungie.net/en/Application.
+## 1. Create a Bungie Application here https://www.bungie.net/en/Application
 
-    a. Fill in "Application Name"
+    a. Fill in "Application Name".
     
-    b. Fill in "Redirect URL" as https://domainname/admin/login-apis.php
+    b. Fill in "Redirect URL" as https://domainname/admin/login-apis.php.
 
-    c. Choose all the check boxes
+    c. Choose all the check boxes.
 
     d. Hit "Create New App".
 
-    c. Keep the application windows open.
+    e. Keep the application windows open.
 
-## 2. Fill in values in admin/config.php
+    f. Copy "API Key" from the Bungie Application page into $BUNGIE_API_X on config.php.
 
-    a. Copy "API Key" from the Bungie Application page into $BUNGIE_API_X
+    g. Copy "Authorization URL" from the Bungie Application page into $BUNGIE_AUTH_URL on config.php.
 
-    b. Copy "Authorization URL" from the Bungie Application page into $BUNGIE_AUTH_URL
+
+## 2. Create Postgres database tables
+    
+    a. Create db tables. Find all create scripts in Admin/scripts.sql
+
+    b. Add a Postgres connection string to $POSTGRES_DB_STR on config.php.

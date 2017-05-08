@@ -145,7 +145,24 @@ $warlockArmorArray = getInfo($jsonstr);
 
 curl_close($ch);
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        $db = pg_connect($POSTGRES_DB_STR) or die('Could not connect: ' . pg_last_error());
+
+        //Delete old records
+        $query = "DELETE FROM VendorArmor";  
+        $result = pg_query($query);
+
+        foreach($warlockArmorArray as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Warlock Vanguard','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        pg_close($db);
+}
 ?>
+
 
 <html>
  <head>
@@ -154,8 +171,14 @@ curl_close($ch);
  </head>
  <body>
  <div class="container">
-    <h1>Admin - Vendor Info</h1>
-    <?php 
+    <h1>Admin - Vendor Armor</h1>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+    <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                echo "<p><b>Saved!</b></p>";
+        }
         echo "<table class='table table-condensed table-striped'>";
         echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll %</th> <th>T12</th> </tr>";
         
