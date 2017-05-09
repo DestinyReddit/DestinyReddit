@@ -11,7 +11,8 @@ CREATE TABLE VendorArmor(
    Intelligence TEXT,
    Discipline TEXT,
    Strength TEXT,
+   RollPercent TEXT,
    T12 TEXT
 );
 
-select * from VendorArmor
+SELECT * FROM VendorArmor
