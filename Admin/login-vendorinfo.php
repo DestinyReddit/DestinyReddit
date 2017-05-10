@@ -5,7 +5,9 @@ require_once ('../config.php');
 $accesstoken = $_COOKIE["bungie_access_token"];
 $membership_id = $_COOKIE["membership_id"];
 $membership_type = $_COOKIE["membership_type"];
-$first_character_id =  $_COOKIE["first_character_id"];
+$titan_character_id =  $_COOKIE["titan_character_id"];
+$warlock_character_id =  $_COOKIE["warlock_character_id"];
+$hunter_character_id =  $_COOKIE["hunter_character_id"];
 
 class Armor {
         public $itemhash;
@@ -129,19 +131,38 @@ function getInfo($jsoninput) {
 $ch = curl_init();
 
 //TITAN
+$titanVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/1990950/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $titanVanguardURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$jsonstr1 = curl_exec($ch);
+$titanArmorArray = getInfo($jsonstr1);
 
 //WARLOCK
-$warlockVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $first_character_id . "/Vendor/1575820975/" . "?definitions=true";
+$warlockVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1575820975/" . "?definitions=true";
 curl_setopt($ch, CURLOPT_URL, $warlockVanguardURL);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr = curl_exec($ch);
-$warlockArmorArray = getInfo($jsonstr);
+$jsonstr2 = curl_exec($ch);
+$warlockArmorArray = getInfo($jsonstr2);
 
 //HUNTER
+$hunterVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/3003633346/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $hunterVanguardURL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$jsonstr3 = curl_exec($ch);
+$hunterArmorArray = getInfo($jsonstr3);
+
 
 curl_close($ch);
 
@@ -153,9 +174,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "DELETE FROM VendorArmor";  
         $result = pg_query($query);
 
+        foreach($titanArmorArray as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Titan Vanguard','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
         foreach($warlockArmorArray as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
                           VALUES ('Warlock Vanguard','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($hunterArmorArray as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Hunter Vanguard','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
@@ -168,6 +201,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  <head>
   <title>Welcome to /r/DTG/</title>
   <link rel="stylesheet" type="text/css"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+        * {
+                font-size: 14px;
+                line-height: 1.428;
+        }
+  </style>
  </head>
  <body>
  <div class="container">
@@ -179,9 +218,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<p><b>Saved!</b></p>";
         }
-        echo "<table class='table table-condensed table-striped'>";
-        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll %</th> <th>T12</th> </tr>";
         
+        echo "<div class='container'>";
+        echo "<div class='row'>";
+        echo "<div class='col-md-12'>";
+
+        echo "<div class='table-responsive'>";
+        echo "<table class='table table-bordered table-striped'>";
+        echo "<thead>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll %</th> <th>T12</th> </tr>";
+        echo "</thead>";
+        
+        foreach($titanArmorArray as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Titan Vanguard" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
         foreach($warlockArmorArray as $armor) {       
                 echo "<tr>" ;
                 echo "<td>" . "Warlock Vanguard" . "</td>";
@@ -198,8 +261,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
         
+        foreach($hunterArmorArray as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Hunter Vanguard" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
         echo "</table>";
-    
+        echo "</div>";
+
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
     ?>
  </div>   
  </body>
