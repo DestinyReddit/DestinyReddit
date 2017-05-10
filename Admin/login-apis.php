@@ -33,13 +33,32 @@ $userinfojson = curl_exec($ch);
 $userinfo = json_decode($userinfojson);
 $membership_id = $userinfo->Response->destinyAccounts[0]->userInfo->membershipId;
 $membership_type = $userinfo->Response->destinyAccounts[0]->userInfo->membershipType;
-$first_character_id = $userinfo->Response->destinyAccounts[0]->characters[0]->characterId;
+$titan_character_id = "";
+$warlock_character_id = "";
+$hunter_character_id = "";
+
+foreach($userinfo->Response->destinyAccounts[0]->characters as $character) { 
+    
+    if($character->characterClass->classHash == 3655393761) {
+        $titan_character_id = $character->characterId;
+    }   
+    if($character->characterClass->classHash == 2271682572) {
+        $warlock_character_id = $character->characterId;
+    }   
+    if($character->characterClass->classHash == 671679327) {
+        $hunter_character_id = $character->characterId;
+    }
+    
+}
+
 curl_close($ch);
 
 setcookie("bungie_access_token", $accesstoken, time() + 3600);
 setcookie("membership_id", $membership_id, time() + 3600);
 setcookie("membership_type", $membership_type, time() + 3600);
-setcookie("first_character_id", $first_character_id, time() + 3600);
+setcookie("titan_character_id", $titan_character_id, time() + 3600);
+setcookie("warlock_character_id", $warlock_character_id, time() + 3600);
+setcookie("hunter_character_id", $hunter_character_id, time() + 3600);
 
 ?>
 
