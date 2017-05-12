@@ -23,7 +23,98 @@ class Armor {
         public $t12;
 }
 
-function getInfo($jsoninput) {   
+class Weapon {
+        public $itemhash;
+        public $itemname;
+        public $itemtype;        
+        public $perk1;
+        public $perk2;
+        public $perk3;        
+}
+
+
+function unneededType($type) {   
+        if($type == ""   or $type == "sword" or $type == "crucible bounty" or $type == "vehicle" or $type == "material" or $type == "consumable"
+        or $type == "material exchange" or $type == "weekly elite bounty" or $type == "engram") {
+             return true;   
+        }
+        else {
+             return false;
+        }
+}
+
+function isGun($type) {   
+        if($type == "auto rifle"   or $type == "hand cannon" or $type == "sidearm" or $type == "shotgun" or $type == "sniper rifle" or $type == "machine gun"
+        or $type == "rocket launcher" or $type == "pulse rifle" or $type == "fusion rifle" or $type == "scout rifle") {
+             return true;   
+        }
+        else {
+             return false;
+        }
+}
+
+function getWeaponInfo($jsoninput) {   
+
+        $salesitems = json_decode($jsoninput);
+        
+        $weaponArray = array();
+        foreach($salesitems->Response->data->saleItemCategories as $saleCategories) {
+                                
+                foreach($saleCategories->saleItems as $saleitem) {                               
+
+                        //Hash
+                        $hash = $saleitem->item->itemHash;                        
+                        $name =  strtolower($salesitems->Response->definitions->items->$hash->itemName);
+                        $type = "";
+                        if(isset($salesitems->Response->definitions->items->$hash->itemTypeName)) {
+                                $type = strtolower($salesitems->Response->definitions->items->$hash->itemTypeName);
+                        }
+
+                        if(unneededType($type) == false)
+                        {
+                                if(isGun($type)) {
+                                        $weapon = new Weapon();                                        
+                                        //Hash
+                                        $weapon->itemhash = $saleitem->item->itemHash;
+                                        //Item Name
+                                        $itemhash = $weapon->itemhash;
+                                        $weapon->itemname = str_replace("'", "", $salesitems->Response->definitions->items->$itemhash->itemName);
+                                        //Item Type
+                                        $weapon->itemtype = "";
+                                        if(isset($salesitems->Response->definitions->items->$itemhash->itemTypeName)) {
+                                                $weapon->itemtype = $salesitems->Response->definitions->items->$itemhash->itemTypeName;
+                                        }
+                                        
+                                        //Perk 1
+                                        $weapon->perk1 = "";
+                                        if(isset($saleitem->item->perks[0]->perkHash)) {
+                                                $perk1hash = $saleitem->item->perks[0]->perkHash;
+                                                $weapon->perk1 = $salesitems->Response->definitions->perks->$perk1hash->displayName;
+                                        }
+                                        //Perk 2
+                                        $weapon->perk2 = "";
+                                        if(isset($saleitem->item->perks[1]->perkHash)) {
+                                                $perk2hash = $saleitem->item->perks[1]->perkHash;
+                                                $weapon->perk2 = $salesitems->Response->definitions->perks->$perk2hash->displayName;
+                                        }
+                                        //Perk 3
+                                        $weapon->perk3 = "";
+                                        if(isset($saleitem->item->perks[2]->perkHash)) {
+                                                $perk3hash = $saleitem->item->perks[2]->perkHash;
+                                                $weapon->perk3 = $salesitems->Response->definitions->perks->$perk3hash->displayName;
+                                        }
+                                       
+                                        array_push($weaponArray, $weapon);
+                                }                                
+                        }
+                }
+
+                
+        }
+        return $weaponArray;
+}
+
+function getArmorInfo($jsoninput) {   
 
         $salesitems = json_decode($jsoninput);
         $armorArray = array();
@@ -39,110 +130,93 @@ function getInfo($jsoninput) {
                                 $type = strtolower($salesitems->Response->definitions->items->$hash->itemTypeName);
                         }
 
-                        if($type != ""   
-                        and $type != "sword"
-                        and $type != "crucible bounty"
-                        and $type != "vehicle"
-                        and $type != "material"
-                        and $type != "consumable"
-                        and $type != "material exchange"
-                        and $type != "weekly elite bounty"
-                        and $type != "engram")
+                        if(unneededType($type) == false)
                         {
-                                $armor = new Armor();
-                                
-                                //Hash
-                                $armor->itemhash = $saleitem->item->itemHash;
+                                if(!isGun($type)) {
+                                       $armor = new Armor();                                        
+                                        //Hash
+                                        $armor->itemhash = $saleitem->item->itemHash;
+                                        //Item Name
+                                        $itemhash = $armor->itemhash;
+                                        $armor->itemname = str_replace("'", "", $salesitems->Response->definitions->items->$itemhash->itemName);
+                                        //Item Type
+                                        $armor->itemtype = "";
+                                        if(isset($salesitems->Response->definitions->items->$itemhash->itemTypeName)) {
+                                                $armor->itemtype = $salesitems->Response->definitions->items->$itemhash->itemTypeName;
+                                        }
+                                        //Intellect
+                                        $armor->intellect = 0;
+                                        foreach($saleitem->item->stats as $stat) {
+                                                if($stat->statHash == 144602215) 
+                                                        $armor->intellect = $stat->value;                               
+                                        }                                        
+                                        //Discipline
+                                        $armor->discipline = 0;
+                                        foreach($saleitem->item->stats as $stat) {
+                                        if($stat->statHash == 1735777505) 
+                                                $armor->discipline = $stat->value;
+                                        }
+                                        //Strength
+                                        $armor->strength = 0;
+                                        foreach($saleitem->item->stats as $stat) {
+                                                if($stat->statHash == 4244567218) 
+                                                        $armor->strength = $stat->value;
+                                        }
+                                        //Perk 1
+                                        $armor->perk1 = "";
+                                        if(isset($saleitem->item->perks[0]->perkHash)) {
+                                                $perk1hash = $saleitem->item->perks[0]->perkHash;
+                                                $armor->perk1 = $salesitems->Response->definitions->perks->$perk1hash->displayName;
+                                        }
+                                        //Perk 2
+                                        $armor->perk2 = "";
+                                        if(isset($saleitem->item->perks[1]->perkHash)) {
+                                                $perk2hash = $saleitem->item->perks[1]->perkHash;
+                                                $armor->perk2 = $salesitems->Response->definitions->perks->$perk2hash->displayName;
+                                        }
+                                        //Perk 3
+                                        $armor->perk3 = "";
+                                        if(isset($saleitem->item->perks[2]->perkHash)) {
+                                                $perk3hash = $saleitem->item->perks[2]->perkHash;
+                                                $armor->perk3 = $salesitems->Response->definitions->perks->$perk3hash->displayName;
+                                        }
 
-                                //Item Name
-                                $itemhash = $armor->itemhash;
-                                $armor->itemname = str_replace("'", "", $salesitems->Response->definitions->items->$itemhash->itemName);
+                                        //Roll %
+                                        $armor->roll = 0;
+                                        $pos = strpos(strtolower($armor->itemtype), 'gauntlets');
+                                        if($pos !== false) {
+                                                $armor->roll = round((($armor->intellect/41 + $armor->discipline/41 + $armor->strength/41) / 2) * 100);
+                                        }
+                                        $pos = strpos(strtolower($armor->itemtype), 'leg');
+                                        if($pos !== false) {
+                                                $armor->roll = round((($armor->intellect/56 + $armor->discipline/56 + $armor->strength/56) / 2) * 100);
+                                        }
+                                        $pos = strpos(strtolower($armor->itemtype), 'warlock bond');
+                                        if($pos !== false) {
+                                                $armor->roll = round((($armor->intellect/25 + $armor->discipline/25 + $armor->strength/25) / 2) * 100);
+                                        }
+                                        $pos = strpos(strtolower($armor->itemtype), 'chest armor');
+                                        if($pos !== false) {
+                                                $armor->roll = round((($armor->intellect/61 + $armor->discipline/61 + $armor->strength/61) / 2) * 100);
+                                        }
+                                        $pos = strpos(strtolower($armor->itemtype), 'shell');
+                                        if($pos !== false) {
+                                                $armor->roll = round((($armor->intellect/25 + $armor->discipline/25 + $armor->strength/25) / 2) * 100);
+                                        }
+                                        $pos = strpos(strtolower($armor->itemtype), 'helmet');
+                                        if($pos !== false) {
+                                                $armor->roll = round((($armor->intellect/46 + $armor->discipline/46 + $armor->strength/46) / 2) * 100);
+                                        }
 
-                                //Item Type
-                                $armor->itemtype = "";
-                                if(isset($salesitems->Response->definitions->items->$itemhash->itemTypeName)) {
-                                        $armor->itemtype = $salesitems->Response->definitions->items->$itemhash->itemTypeName;
+                                        //T12
+                                        $armor->t12 = "";
+                                        if($armor->roll >= 96) {
+                                                $armor->t12 = "T12";
+                                        }
+                                        array_push($armorArray, $armor);
                                 }
-
-                                //Intellect
-                                $armor->intellect = 0;
-                                foreach($saleitem->item->stats as $stat) {
-                                        if($stat->statHash == 144602215) 
-                                                $armor->intellect = $stat->value;                               
-                                }
-                                
-                                //Discipline
-                                $armor->discipline = 0;
-                                foreach($saleitem->item->stats as $stat) {
-                                if($stat->statHash == 1735777505) 
-                                        $armor->discipline = $stat->value;
-                                }
-
-                                //Strength
-                                $armor->strength = 0;
-                                foreach($saleitem->item->stats as $stat) {
-                                        if($stat->statHash == 4244567218) 
-                                                $armor->strength = $stat->value;
-                                }
-
-                                //Perk 1
-                                $armor->perk1 = "";
-                                if(isset($saleitem->item->perks[0]->perkHash)) {
-                                        $perk1hash = $saleitem->item->perks[0]->perkHash;
-                                        $armor->perk1 = $salesitems->Response->definitions->perks->$perk1hash->displayName;
-                                }
-
-                                //Perk 2
-                                $armor->perk2 = "";
-                                if(isset($saleitem->item->perks[1]->perkHash)) {
-                                        $perk2hash = $saleitem->item->perks[1]->perkHash;
-                                        $armor->perk2 = $salesitems->Response->definitions->perks->$perk2hash->displayName;
-                                }
-
-                                //Perk 3
-                                $armor->perk3 = "";
-                                if(isset($saleitem->item->perks[2]->perkHash)) {
-                                        $perk3hash = $saleitem->item->perks[2]->perkHash;
-                                        $armor->perk3 = $salesitems->Response->definitions->perks->$perk3hash->displayName;
-                                }
-
-                                //Roll %
-                                $armor->roll = 0;
-                                $pos = strpos(strtolower($armor->itemtype), 'gauntlets');
-                                if($pos !== false) {
-                                        $armor->roll = round((($armor->intellect/41 + $armor->discipline/41 + $armor->strength/41) / 2) * 100);
-                                }
-                                $pos = strpos(strtolower($armor->itemtype), 'leg');
-                                if($pos !== false) {
-                                        $armor->roll = round((($armor->intellect/56 + $armor->discipline/56 + $armor->strength/56) / 2) * 100);
-                                }
-                                $pos = strpos(strtolower($armor->itemtype), 'warlock bond');
-                                if($pos !== false) {
-                                        $armor->roll = round((($armor->intellect/25 + $armor->discipline/25 + $armor->strength/25) / 2) * 100);
-                                }
-                                $pos = strpos(strtolower($armor->itemtype), 'chest armor');
-                                if($pos !== false) {
-                                        $armor->roll = round((($armor->intellect/61 + $armor->discipline/61 + $armor->strength/61) / 2) * 100);
-                                }
-                                $pos = strpos(strtolower($armor->itemtype), 'shell');
-                                if($pos !== false) {
-                                        $armor->roll = round((($armor->intellect/25 + $armor->discipline/25 + $armor->strength/25) / 2) * 100);
-                                }
-                                $pos = strpos(strtolower($armor->itemtype), 'helmet');
-                                if($pos !== false) {
-                                        $armor->roll = round((($armor->intellect/46 + $armor->discipline/46 + $armor->strength/46) / 2) * 100);
-                                }
-
-                                //T12
-                                $armor->t12 = "";
-                                if($armor->roll >= 96) {
-                                        $armor->t12 = "T12";
-                                }
-                                array_push($armorArray, $armor);
                         }
-                }
-
-                
+                }                
         }
         return $armorArray;
 }
@@ -158,7 +232,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr1 = curl_exec($ch);
-$titanArmorArray = getInfo($jsonstr1);
+$titanArmorArray = getArmorInfo($jsonstr1);
 
 //WARLOCK
 $warlockVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1575820975/" . "?definitions=true";
@@ -169,7 +243,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr2 = curl_exec($ch);
-$warlockArmorArray = getInfo($jsonstr2);
+$warlockArmorArray = getArmorInfo($jsonstr2);
 
 //HUNTER
 $hunterVanguardURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/3003633346/" . "?definitions=true";
@@ -180,7 +254,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr3 = curl_exec($ch);
-$hunterArmorArray = getInfo($jsonstr3);
+$hunterArmorArray = getArmorInfo($jsonstr3);
 
 //CRUCIBLE
 $crucibleURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3746647075/" . "?definitions=true";
@@ -191,7 +265,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr4 = curl_exec($ch);
-$crucibleArray = getInfo($jsonstr4);
+$crucibleArray = getArmorInfo($jsonstr4);
 
 //NEW MONARCHY
 $newmonarchyURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1808244981/" . "?definitions=true";
@@ -202,7 +276,8 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr5 = curl_exec($ch);
-$newmonarchyArray = getInfo($jsonstr5);
+$newmonarchyArray = getArmorInfo($jsonstr5);
+$newmonarchyWeaponArray = getWeaponInfo($jsonstr5);
 
 
 //DEAD ORBIT
@@ -214,8 +289,8 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr6 = curl_exec($ch);
-$deadorbitArray = getInfo($jsonstr6);
-
+$deadorbitArray = getArmorInfo($jsonstr6);
+$deadOrbitWeaponArray = getWeaponInfo($jsonstr6);
 
 //FWC
 $fwcURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1821699360/" . "?definitions=true";
@@ -226,7 +301,8 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr7 = curl_exec($ch);
-$fwcArray = getInfo($jsonstr7);
+$fwcArray = getArmorInfo($jsonstr7);
+$fwcWeaponArray = getWeaponInfo($jsonstr7);
 
 //VANGUARD QUARTER MASTER
 $vqmURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2668878854/" . "?definitions=true";
@@ -237,7 +313,8 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr8 = curl_exec($ch);
-$vqmArray = getInfo($jsonstr8);
+//$vqmArray = getArmorInfo($jsonstr8);
+$vqmWeaponArray = getWeaponInfo($jsonstr8);
 
 //CRUCIBLE QUARTER MASTER
 $cqmURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3658200622/" . "?definitions=true";
@@ -248,7 +325,8 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr9 = curl_exec($ch);
-$cqmArray = getInfo($jsonstr9);
+//$cqmArray = getArmorInfo($jsonstr9);
+$cqmWeaponArray = getWeaponInfo($jsonstr9);
 
 //SPEAKER 
 $speakerURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2680694281/" . "?definitions=true";
@@ -259,7 +337,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer '.$accesstoken
 ));
 $jsonstr10 = curl_exec($ch);
-$speakerArray = getInfo($jsonstr10);
+$speakerArray = getArmorInfo($jsonstr10);
 
 curl_close($ch);
 
@@ -349,15 +427,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  </head>
  <body>
  <div class="container">
-    <h1>Admin - Vendor Armor</h1>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
+ <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
+
+    <h1>Admin - Vendor Armor</h1>
+    
     <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<p><b>Saved!</b></p>";
         }
-                
+        
         echo "<div class='container'>";
         echo "<div class='row'>";
         echo "<div class='col-md-12'>";
@@ -480,38 +560,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-         foreach($vqmArray as $armor) {       
-                echo "<tr>" ;
-                echo "<td>" . "Vanguard Quartermaster" . "</td>";
-                echo "<td>" . $armor->itemname . "" . "</td>";
-                echo "<td>" . $armor->itemtype . "" . "</td>";                        
-                echo "<td>" . $armor->perk1 . "</td>";
-                echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
-                echo "<td>" . $armor->intellect . "</td>";
-                echo "<td>" . $armor->discipline . "</td>";
-                echo "<td>" . $armor->strength . "</td>";
-                echo "<td>" . $armor->roll . "%" . "</td>";
-                echo "<td>" . $armor->t12 . "</td>";
-                echo "</tr>";
-        }
-
-         foreach($cqmArray as $armor) {       
-                echo "<tr>" ;
-                echo "<td>" . "Crucible Quartermaster" . "</td>";
-                echo "<td>" . $armor->itemname . "" . "</td>";
-                echo "<td>" . $armor->itemtype . "" . "</td>";                        
-                echo "<td>" . $armor->perk1 . "</td>";
-                echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
-                echo "<td>" . $armor->intellect . "</td>";
-                echo "<td>" . $armor->discipline . "</td>";
-                echo "<td>" . $armor->strength . "</td>";
-                echo "<td>" . $armor->roll . "%" . "</td>";
-                echo "<td>" . $armor->t12 . "</td>";
-                echo "</tr>";
-        }
-
          foreach($speakerArray as $armor) {       
                 echo "<tr>" ;
                 echo "<td>" . "Speaker" . "</td>";
@@ -531,9 +579,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "</table>";
         echo "</div>";
 
+        echo "<h1>Admin - Vendor Weapon</h1>";
+        echo "<div class='table-responsive'>";
+        echo "<table class='table table-bordered table-striped'>";
+        echo "<thead>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> </tr>";
+        echo "</thead>";
+
+         foreach($newmonarchyWeaponArray as $weapon) {       
+                echo "<tr>" ;
+                echo "<td>" . "New Monarchy" . "</td>";
+                echo "<td>" . $weapon->itemname . "" . "</td>";
+                echo "<td>" . $weapon->itemtype . "" . "</td>";                        
+                echo "<td>" . $weapon->perk1 . "</td>";
+                echo "<td>" . $weapon->perk2 . "</td>";
+                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "</tr>";
+        }
+
+        foreach($deadOrbitWeaponArray as $weapon) {       
+                echo "<tr>" ;
+                echo "<td>" . "Dead Orbit" . "</td>";
+                echo "<td>" . $weapon->itemname . "" . "</td>";
+                echo "<td>" . $weapon->itemtype . "" . "</td>";                        
+                echo "<td>" . $weapon->perk1 . "</td>";
+                echo "<td>" . $weapon->perk2 . "</td>";
+                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "</tr>";
+        }
+
+        foreach($fwcWeaponArray as $weapon) {       
+                echo "<tr>" ;
+                echo "<td>" . "Future War Cult" . "</td>";
+                echo "<td>" . $weapon->itemname . "" . "</td>";
+                echo "<td>" . $weapon->itemtype . "" . "</td>";                        
+                echo "<td>" . $weapon->perk1 . "</td>";
+                echo "<td>" . $weapon->perk2 . "</td>";
+                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "</tr>";
+        }
+
+        foreach($vqmWeaponArray as $weapon) {       
+                echo "<tr>" ;
+                echo "<td>" . "Vanguard Quartermaster" . "</td>";
+                echo "<td>" . $weapon->itemname . "" . "</td>";
+                echo "<td>" . $weapon->itemtype . "" . "</td>";                        
+                echo "<td>" . $weapon->perk1 . "</td>";
+                echo "<td>" . $weapon->perk2 . "</td>";
+                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "</tr>";
+        }
+
+        foreach($cqmWeaponArray as $weapon) {       
+                echo "<tr>" ;
+                echo "<td>" . "Crucible Quartermaster" . "</td>";
+                echo "<td>" . $weapon->itemname . "" . "</td>";
+                echo "<td>" . $weapon->itemtype . "" . "</td>";                        
+                echo "<td>" . $weapon->perk1 . "</td>";
+                echo "<td>" . $weapon->perk2 . "</td>";
+                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "</tr>";
+        }
+
+        echo "</table>";
+        echo "</div>";
+
         echo "</div>";
         echo "</div>";
         echo "</div>";
+
+       
     ?>
  </div>   
  </body>
