@@ -103,6 +103,20 @@ function getWeaponInfo($jsoninput) {
                                                 $perk3hash = $saleitem->item->perks[2]->perkHash;
                                                 $weapon->perk3 = $salesitems->Response->definitions->perks->$perk3hash->displayName;
                                         }
+
+                                         //Perk 4
+                                        $weapon->perk4 = "";
+                                        if(isset($saleitem->item->perks[3]->perkHash)) {
+                                                $perk4hash = $saleitem->item->perks[3]->perkHash;
+                                                $weapon->perk4 = $salesitems->Response->definitions->perks->$perk4hash->displayName;
+                                        }
+
+                                         //Perk 5
+                                        $weapon->perk5 = "";
+                                        if(isset($saleitem->item->perks[4]->perkHash)) {
+                                                $perk5hash = $saleitem->item->perks[4]->perkHash;
+                                                $weapon->perk5 = $salesitems->Response->definitions->perks->$perk5hash->displayName;
+                                        }
                                        
                                         array_push($weaponArray, $weapon);
                                 }                                
@@ -391,21 +405,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $result = pg_query($query);
         }
 
-        foreach($vqmArray as $armor) {       
-                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Vanguard Quartermaster','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
-                $result = pg_query($query);
-        }
-
-        foreach($cqmArray as $armor) {       
-                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Crucible Quartermaster','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
-                $result = pg_query($query);
-        }
-
         foreach($speakerArray as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
                           VALUES ('Speaker','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        //Delete old records
+        $query = "DELETE FROM VendorWeapon";  
+        $result = pg_query($query);
+        
+        foreach($newmonarchyWeaponArray as $weapon) {       
+                $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
+                          VALUES ('New Monarchy','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
+                $result = pg_query($query);
+        }
+
+        foreach($deadOrbitWeaponArray as $weapon) {       
+                $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
+                          VALUES ('Deal Orbit','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
+                $result = pg_query($query);
+        }
+
+        foreach($fwcWeaponArray as $weapon) {       
+                $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
+                          VALUES ('Future War Cult','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
+                $result = pg_query($query);
+        }
+
+        foreach($vqmWeaponArray as $weapon) {       
+                $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
+                          VALUES ('Vanguard Quartermaster','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
+                $result = pg_query($query);
+        }
+
+        foreach($cqmWeaponArray as $weapon) {       
+                $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
+                          VALUES ('Crucible Quartermaster','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
                 $result = pg_query($query);
         }
 
@@ -429,14 +465,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  <div class="container">
  <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
         <button class="btn btn-primary" type="submit">Save</button>
-    </form>
+ </form>
+
+ <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                echo "<p><b>Saved!</b></p>";
+        }
+   ?>
 
     <h1>Admin - Vendor Armor</h1>
     
     <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                echo "<p><b>Saved!</b></p>";
-        }
         
         echo "<div class='container'>";
         echo "<div class='row'>";
@@ -583,7 +622,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<div class='table-responsive'>";
         echo "<table class='table table-bordered table-striped'>";
         echo "<thead>";
-        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> </tr>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Perks 4</th> <th>Perks 5</th> </tr>";
         echo "</thead>";
 
          foreach($newmonarchyWeaponArray as $weapon) {       
@@ -594,6 +633,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
                 echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "<td>" . $weapon->perk4 . "</td>";
+                echo "<td>" . $weapon->perk5 . "</td>";
                 echo "</tr>";
         }
 
@@ -604,7 +645,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->itemtype . "" . "</td>";                        
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
-                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "<td>" . $weapon->perk3 . "</td>";   
+                echo "<td>" . $weapon->perk4 . "</td>";
+                echo "<td>" . $weapon->perk5 . "</td>";             
                 echo "</tr>";
         }
 
@@ -615,7 +658,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->itemtype . "" . "</td>";                        
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
-                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "<td>" . $weapon->perk3 . "</td>";  
+                echo "<td>" . $weapon->perk4 . "</td>";
+                echo "<td>" . $weapon->perk5 . "</td>";              
                 echo "</tr>";
         }
 
@@ -626,7 +671,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->itemtype . "" . "</td>";                        
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
-                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "<td>" . $weapon->perk3 . "</td>";   
+                echo "<td>" . $weapon->perk4 . "</td>";
+                echo "<td>" . $weapon->perk5 . "</td>";             
                 echo "</tr>";
         }
 
@@ -637,7 +684,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->itemtype . "" . "</td>";                        
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
-                echo "<td>" . $weapon->perk3 . "</td>";                
+                echo "<td>" . $weapon->perk3 . "</td>";  
+                echo "<td>" . $weapon->perk4 . "</td>";
+                echo "<td>" . $weapon->perk5 . "</td>";              
                 echo "</tr>";
         }
 

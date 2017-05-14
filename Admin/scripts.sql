@@ -16,3 +16,15 @@ CREATE TABLE VendorArmor(
 );
 
 SELECT * FROM VendorArmor
+
+CREATE TABLE VendorWeapon(
+   VendorWeaponId BIGSERIAL Primary Key,
+   VendorName TEXT,
+   WeaponName TEXT,
+   WeaponType TEXT,
+   Perks1 TEXT,
+   Perks2 TEXT,
+   Perks3 TEXT,
+   Perks4 TEXT,
+   Perks5 TEXT,   
+);
