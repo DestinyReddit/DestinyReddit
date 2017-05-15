@@ -281,42 +281,109 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 $jsonstr4 = curl_exec($ch);
 $crucibleArray = getArmorInfo($jsonstr4);
 
-//NEW MONARCHY
-$newmonarchyURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1808244981/" . "?definitions=true";
-curl_setopt($ch, CURLOPT_URL, $newmonarchyURL);
+//NEW MONARCHY TITAN
+$newmonarchy_titan_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/1808244981/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $newmonarchy_titan_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr5 = curl_exec($ch);
-$newmonarchyArray = getArmorInfo($jsonstr5);
-$newmonarchyWeaponArray = getWeaponInfo($jsonstr5);
+$newmonarchy_titan_jsonstr = curl_exec($ch);
+$newmonarchy_titan_array = getArmorInfo($newmonarchy_titan_jsonstr);
 
-
-//DEAD ORBIT
-$deadorbitURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3611686524/" . "?definitions=true";
-curl_setopt($ch, CURLOPT_URL, $deadorbitURL);
+//NEW MONARCHY HUNTER
+$newmonarchy_hunter_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/1808244981/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $newmonarchy_hunter_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr6 = curl_exec($ch);
-$deadorbitArray = getArmorInfo($jsonstr6);
-$deadOrbitWeaponArray = getWeaponInfo($jsonstr6);
+$newmonarchy_hunter_jsonstr = curl_exec($ch);
+$newmonarchy_hunter_array = getArmorInfo($newmonarchy_hunter_jsonstr);
 
-//FWC
-$fwcURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1821699360/" . "?definitions=true";
-curl_setopt($ch, CURLOPT_URL, $fwcURL);
+//NEW MONARCHY WARLOCK
+$newmonarchy_warlock_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1808244981/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $newmonarchy_warlock_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr7 = curl_exec($ch);
-$fwcArray = getArmorInfo($jsonstr7);
-$fwcWeaponArray = getWeaponInfo($jsonstr7);
+$newmonarchy_warlock_jsonstr = curl_exec($ch);
+$newmonarchy_warlock_array = getArmorInfo($newmonarchy_warlock_jsonstr);
+$newmonarchy_warlock_weapon_array = getWeaponInfo($newmonarchy_warlock_jsonstr);
+
+
+//DEAD ORBIT TITAN
+$deadorbit_titan_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/3611686524/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $deadorbit_titan_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$deadorbit_titan_jsonstr = curl_exec($ch);
+$deadorbit_titan_array = getArmorInfo($deadorbit_titan_jsonstr);
+
+
+//DEAD ORBIT HUNTER
+$deadorbit_hunter_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/3611686524/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $deadorbit_hunter_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$deadorbit_hunter_jsonstr = curl_exec($ch);
+$deadorbit_hunter_array = getArmorInfo($deadorbit_hunter_jsonstr);
+
+//DEAD ORBIT WARLOCK
+$deadorbit_warlock_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3611686524/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $deadorbit_warlock_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$deadorbit_warlock_jsonstr = curl_exec($ch);
+$deadorbit_warlock_array = getArmorInfo($deadorbit_warlock_jsonstr);
+$deadorbit_warlock_weapon_array = getWeaponInfo($deadorbit_warlock_jsonstr);
+
+//FWC TITAN
+$fwc_titan_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/1821699360/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $fwc_titan_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$fwc_titan_jsonstr = curl_exec($ch);
+$fwc_titan_array = getArmorInfo($fwc_titan_jsonstr);
+
+//FWC HUNTER
+$fwc_hunter_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/1821699360/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $fwc_hunter_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$fwc_hunter_jsonstr = curl_exec($ch);
+$fwc_hunter_array = getArmorInfo($fwc_hunter_jsonstr);
+
+//FWC WARLOCK
+$fwc_warlock_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/1821699360/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $fwc_warlock_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$fwc_warlock_jsonstr = curl_exec($ch);
+$fwc_warlock_array = getArmorInfo($fwc_warlock_jsonstr);
+$fwc_warlock_weapon_array = getWeaponInfo($fwc_warlock_jsonstr);
 
 //VANGUARD QUARTER MASTER
 $vqmURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2668878854/" . "?definitions=true";
@@ -387,21 +454,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $result = pg_query($query);
         }
 
-        foreach($newmonarchyArray as $armor) {       
+        foreach($newmonarchy_titan_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('New Monarchy','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('New Monarchy(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
-        foreach($deadorbitArray as $armor) {       
+        foreach($newmonarchy_hunter_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Dead Orbit','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('New Monarchy(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
-        foreach($fwcArray as $armor) {       
+        foreach($newmonarchy_warlock_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Future War cult','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('New Monarchy(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($deadorbit_titan_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Dead Orbit(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($deadorbit_hunter_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Dead Orbit(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($deadorbit_warlock_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Dead Orbit(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($fwc_titan_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Future War cult(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($fwc_hunter_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Future War cult(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($fwc_warlock_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Future War cult(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
@@ -415,19 +518,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "DELETE FROM VendorWeapon";  
         $result = pg_query($query);
         
-        foreach($newmonarchyWeaponArray as $weapon) {       
+        foreach($newmonarchy_warlock_weapon_array as $weapon) {       
                 $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
                           VALUES ('New Monarchy','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
                 $result = pg_query($query);
         }
 
-        foreach($deadOrbitWeaponArray as $weapon) {       
+        foreach($deadorbit_warlock_weapon_array as $weapon) {       
                 $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
                           VALUES ('Dead Orbit','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
                 $result = pg_query($query);
         }
 
-        foreach($fwcWeaponArray as $weapon) {       
+        foreach($fwc_warlock_weapon_array as $weapon) {       
                 $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
                           VALUES ('Future War Cult','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
                 $result = pg_query($query);
@@ -551,9 +654,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-         foreach($newmonarchyArray as $armor) {       
+        foreach($newmonarchy_titan_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "New Monarchy" . "</td>";
+                echo "<td>" . "New Monarchy(Titan)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -567,9 +670,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-         foreach($deadorbitArray as $armor) {       
+        foreach($newmonarchy_hunter_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Dead Orbit" . "</td>";
+                echo "<td>" . "New Monarchy(Hunter)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -583,9 +686,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-         foreach($fwcArray as $armor) {       
+        foreach($newmonarchy_warlock_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Future War cult" . "</td>";
+                echo "<td>" . "New Monarchy(Warlock)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -599,7 +702,103 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-         foreach($speakerArray as $armor) {       
+         foreach($deadorbit_titan_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Dead Orbit(Titan)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($deadorbit_hunter_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Dead Orbit(Hunter)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($deadorbit_warlock_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Dead Orbit(Warlock)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($fwc_titan_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Future War cult(Titan)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($fwc_hunter_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Future War cult(Hunter)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($fwc_warlock_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Future War cult(Warlock)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($speakerArray as $armor) {       
                 echo "<tr>" ;
                 echo "<td>" . "Speaker" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
@@ -625,7 +824,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Perks 4</th> <th>Perks 5</th> </tr>";
         echo "</thead>";
 
-         foreach($newmonarchyWeaponArray as $weapon) {       
+         foreach($newmonarchy_warlock_weapon_array as $weapon) {       
                 echo "<tr>" ;
                 echo "<td>" . "New Monarchy" . "</td>";
                 echo "<td>" . $weapon->itemname . "" . "</td>";
@@ -638,7 +837,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-        foreach($deadOrbitWeaponArray as $weapon) {       
+        foreach($deadorbit_warlock_weapon_array as $weapon) {       
                 echo "<tr>" ;
                 echo "<td>" . "Dead Orbit" . "</td>";
                 echo "<td>" . $weapon->itemname . "" . "</td>";
@@ -651,7 +850,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-        foreach($fwcWeaponArray as $weapon) {       
+        foreach($fwc_warlock_weapon_array as $weapon) {       
                 echo "<tr>" ;
                 echo "<td>" . "Future War Cult" . "</td>";
                 echo "<td>" . $weapon->itemname . "" . "</td>";
