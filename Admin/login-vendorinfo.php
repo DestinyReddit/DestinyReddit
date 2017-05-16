@@ -409,16 +409,38 @@ $jsonstr9 = curl_exec($ch);
 //$cqmArray = getArmorInfo($jsonstr9);
 $cqmWeaponArray = getWeaponInfo($jsonstr9);
 
-//SPEAKER 
-$speakerURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2680694281/" . "?definitions=true";
-curl_setopt($ch, CURLOPT_URL, $speakerURL);
+//SPEAKER TITAN
+$speaker_titan_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/2680694281/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $speaker_titan_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr10 = curl_exec($ch);
-$speakerArray = getArmorInfo($jsonstr10);
+$speaker_titan_jsonstr = curl_exec($ch);
+$speaker_titan_array = getArmorInfo($speaker_titan_jsonstr);
+
+//SPEAKER HUNTER
+$speaker_hunter_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/2680694281/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $speaker_hunter_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$speaker_hunter_jsonstr = curl_exec($ch);
+$speaker_hunter_array = getArmorInfo($speaker_hunter_jsonstr);
+
+//SPEAKER WARLOCK
+$speaker_warlock_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2680694281/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $speaker_warlock_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$speaker_warlock_jsonstr = curl_exec($ch);
+$speaker_warlock_array = getArmorInfo($speaker_warlock_jsonstr);
 
 curl_close($ch);
 
@@ -508,9 +530,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $result = pg_query($query);
         }
 
-        foreach($speakerArray as $armor) {       
+        foreach($speaker_titan_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Speaker','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Speaker(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($speaker_hunter_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Speaker(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($speaker_warlock_array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Speaker(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
@@ -798,9 +832,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-        foreach($speakerArray as $armor) {       
+        foreach($speaker_titan_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Speaker" . "</td>";
+                echo "<td>" . "Speaker(Titan)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -813,6 +847,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->t12 . "</td>";
                 echo "</tr>";
         }
+
+        foreach($speaker_hunter_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Speaker(Hunter)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($speaker_warlock_array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Speaker(Warlock)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
 
         echo "</table>";
         echo "</div>";
