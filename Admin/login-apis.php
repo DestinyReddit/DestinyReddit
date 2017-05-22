@@ -71,7 +71,8 @@ setcookie("hunter_character_id", $hunter_character_id, time() + 3600);
      <div class="container">
         <h1>Admin - Login APIs</h1>
         <ul>
-            <li><a class="btn btn-primary" href="login-vendorinfo.php">Vendor Armor and Weapons</a></li>
+            <li><a class="btn btn-primary" href="login-vendorinfo.php">Vendor Armor</a></li>
+            <li><a class="btn btn-primary" href="login-vendorinfo-weapons.php">Vendor Weapons</a></li>
         </ul>
     </div>
  </body>
