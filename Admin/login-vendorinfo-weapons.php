@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    ?>
     
     <?php
-        echo $newmonarchy_warlock_jsonstr;
+        
         echo "<h1>Admin - Vendor Weapon</h1>";
         echo "<div class='table-responsive'>";
         echo "<table class='table table-bordered table-striped'>";
