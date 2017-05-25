@@ -110,6 +110,10 @@ function getArmorInfo($jsoninput) {
                                                 $armor->perk3 = $salesitems->Response->definitions->perks->$perk3hash->displayName;
                                         }
 
+                                        $armor->perk1 = $armor->perk1 . " // " . $armor->perk2 ;
+                                        $armor->perk2 = $armor->perk3;
+                                        $armor->perk3 = "";
+
                                         //Roll %
                                         $armor->roll = 0;
                                         $pos = strpos(strtolower($armor->itemtype), 'gauntlets');
@@ -474,7 +478,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<div class='table-responsive'>";
         echo "<table class='table table-bordered table-striped'>";
         echo "<thead>";
-        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll %</th> <th>T12</th> </tr>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll %</th> <th>T12</th> </tr>";
         echo "</thead>";
         
         foreach($titanArmorArray as $armor) {       
@@ -483,8 +487,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
-                echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";                
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -500,7 +503,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -516,7 +518,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -532,7 +533,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -548,7 +548,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -564,7 +563,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -580,7 +578,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -596,7 +593,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -612,7 +608,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -628,7 +623,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -644,7 +638,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -660,7 +653,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -676,7 +668,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -692,7 +683,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -708,7 +698,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";
@@ -724,7 +713,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
                 echo "<td>" . $armor->perk2 . "</td>";
-                echo "<td>" . $armor->perk3 . "</td>";
                 echo "<td>" . $armor->intellect . "</td>";
                 echo "<td>" . $armor->discipline . "</td>";
                 echo "<td>" . $armor->strength . "</td>";

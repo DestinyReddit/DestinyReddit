@@ -36,7 +36,7 @@ $result = pg_query($query);
         echo "<div class='table-responsive'>";        
         echo "<table class='table table-bordered table-striped' id='vendorarmor'>";
         echo "<thead>";
-        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll%</th> <th>T12</th> </tr>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll%</th> <th>T12</th> </tr>";
         echo "</thead>";
 
         echo "<tbody>";
@@ -48,7 +48,6 @@ $result = pg_query($query);
             echo "<td>" . $row[3] . "</td>";                        
             echo "<td>" . $row[4] . "</td>";
             echo "<td>" . $row[5] . "</td>";
-            echo "<td>" . $row[6] . "</td>";
             echo "<td>" . $row[7] . "</td>";
             echo "<td>" . $row[8] . "</td>";
             echo "<td>" . $row[9] . "</td>";

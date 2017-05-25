@@ -60,50 +60,58 @@ function getWeaponInfo($jsoninput) {
                         {
                                 if(isGun($type)) {
                                         $weapon = new Weapon();                                        
+                                        
                                         //Hash
                                         $weapon->itemhash = $saleitem->item->itemHash;
+                                        
                                         //Item Name
                                         $itemhash = $weapon->itemhash;
                                         $weapon->itemname = str_replace("'", "", $salesitems->Response->definitions->items->$itemhash->itemName);
+                                        
                                         //Item Type
                                         $weapon->itemtype = "";
                                         if(isset($salesitems->Response->definitions->items->$itemhash->itemTypeName)) {
                                                 $weapon->itemtype = $salesitems->Response->definitions->items->$itemhash->itemTypeName;
                                         }
                                         
-                                        //Perk 1
+                                        //Talent Grid Hash
+                                        $talentGridHash = $saleitem->item->talentGridHash;
+
+                                        //Nodes
                                         $weapon->perk1 = "";
-                                        if(isset($saleitem->item->perks[0]->perkHash)) {
-                                                $perk1hash = $saleitem->item->perks[0]->perkHash;
-                                                $weapon->perk1 = str_replace("'","",$salesitems->Response->definitions->perks->$perk1hash->displayName);
-                                        }
-                                        //Perk 2
-                                        $weapon->perk2 = "";
-                                        if(isset($saleitem->item->perks[1]->perkHash)) {
-                                                $perk2hash = $saleitem->item->perks[1]->perkHash;
-                                                $weapon->perk2 = str_replace("'","",$salesitems->Response->definitions->perks->$perk2hash->displayName);
-                                        }
-                                        //Perk 3
-                                        $weapon->perk3 = "";
-                                        if(isset($saleitem->item->perks[2]->perkHash)) {
-                                                $perk3hash = $saleitem->item->perks[2]->perkHash;
-                                                $weapon->perk3 = str_replace("'","",$salesitems->Response->definitions->perks->$perk3hash->displayName);
-                                        }
+                                        foreach($saleitem->item->nodes as $node) {
+                                                
+                                                foreach($salesitems->Response->definitions->talentGrids->$talentGridHash->nodes as $talentnode) {
+                                                
+                                                        if($node->nodeHash == $talentnode->nodeHash) {
+                                                
+                                                                foreach($talentnode->steps as $talentstep) {
+                                                
+                                                                        if($node->stepIndex == $talentstep->stepIndex) {
 
-                                         //Perk 4
+                                                                                if($talentnode->nodeHash == 1 or $talentnode->nodeHash == 2) {
+                                                                                        $weapon->perk1 = $weapon->perk1 . " // " . $talentstep->nodeStepName;
+                                                                                }
+
+                                                                                if($talentnode->nodeHash == 6 or $talentnode->nodeHash == 7) {
+                                                                                        $weapon->perk2 = $weapon->perk2 . " // " . $talentstep->nodeStepName;
+                                                                                }
+
+                                                                                if($talentnode->nodeHash == 8 or $talentnode->nodeHash == 9) {                            
+                                                                                        $weapon->perk3 = $weapon->perk3 . " // " . $talentstep->nodeStepName;
+                                                                                }
+                                                                                
+
+                                                                        }
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                    
                                         $weapon->perk4 = "";
-                                        if(isset($saleitem->item->perks[3]->perkHash)) {
-                                                $perk4hash = $saleitem->item->perks[3]->perkHash;
-                                                $weapon->perk4 = str_replace("'","",$salesitems->Response->definitions->perks->$perk4hash->displayName);
-                                        }
+                                        $weapon->perk5 = "";                            
 
-                                         //Perk 5
-                                        $weapon->perk5 = "";
-                                        if(isset($saleitem->item->perks[4]->perkHash)) {
-                                                $perk5hash = $saleitem->item->perks[4]->perkHash;
-                                                $weapon->perk5 = str_replace("'","",$salesitems->Response->definitions->perks->$perk5hash->displayName);
-                                        }
-                                       
+
                                         array_push($weaponArray, $weapon);
                                 }                                
                         }
