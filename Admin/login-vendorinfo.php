@@ -110,7 +110,7 @@ function getArmorInfo($jsoninput) {
                                                 $armor->perk3 = $salesitems->Response->definitions->perks->$perk3hash->displayName;
                                         }
 
-                                        $armor->perk1 = $armor->perk1 . " // " . $armor->perk2 ;
+                                        $armor->perk1 = $armor->perk1 . " || " . $armor->perk2 ;
                                         $armor->perk2 = $armor->perk3;
                                         $armor->perk3 = "";
 

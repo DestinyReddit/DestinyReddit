@@ -39,6 +39,15 @@ function isGun($type) {
         }
 }
 
+function unneededTier($tier) {   
+        if($tier == "uncommon") {
+                return true;
+        }
+        else {
+             return false;
+        }
+}
+
 function getWeaponInfo($jsoninput) {   
 
         $salesitems = json_decode($jsoninput);
@@ -56,7 +65,13 @@ function getWeaponInfo($jsoninput) {
                                 $type = strtolower($salesitems->Response->definitions->items->$hash->itemTypeName);
                         }
 
-                        if(unneededType($type) == false)
+                        $tier = "";
+                        if(isset($salesitems->Response->definitions->items->$hash->tierTypeName)) {
+                                $tier = strtolower($salesitems->Response->definitions->items->$hash->tierTypeName);
+                        }
+                        
+
+                        if(unneededType($type) == false and unneededTier($tier) == false)
                         {
                                 if(isGun($type)) {
                                         $weapon = new Weapon();                                        
@@ -78,6 +93,7 @@ function getWeaponInfo($jsoninput) {
                                         $talentGridHash = $saleitem->item->talentGridHash;
 
                                         //Nodes
+                                        //echo "NAME" . " " . "nodeHash" . " " . "stepIndex" . " ". "state" . " " . "isActivated" . " " . "hidden" . " " . "nodeStepName" . "</br>";
                                         $weapon->perk1 = "";
                                         foreach($saleitem->item->nodes as $node) {
                                                 
@@ -89,18 +105,28 @@ function getWeaponInfo($jsoninput) {
                                                 
                                                                         if($node->stepIndex == $talentstep->stepIndex) {
 
-                                                                                if($talentnode->nodeHash == 1 or $talentnode->nodeHash == 2) {
-                                                                                        $weapon->perk1 = $weapon->perk1 . " // " . $talentstep->nodeStepName;
-                                                                                }
+                                                                                if(json_encode($node->isActivated) == "false" and json_encode($node->hidden) == "false" ) {
 
-                                                                                if($talentnode->nodeHash == 6 or $talentnode->nodeHash == 7) {
-                                                                                        $weapon->perk2 = $weapon->perk2 . " // " . $talentstep->nodeStepName;
-                                                                                }
+                                                                                   //echo $weapon->itemname . " " . $node->nodeHash . " " . $node->stepIndex . " ". $node->state . " " . json_encode($node->isActivated) . " " . json_encode($node->hidden) . " " . $talentstep->nodeStepName . "</br>";
+                                                                                                                                                                                                                                      
+                                                                                   if($node->state == 11) {                                                                                        
+                                                                                        $weapon->perk1 = $weapon->perk1 . " || " . $talentstep->nodeStepName;                                                                                        
+                                                                                   }
 
-                                                                                if($talentnode->nodeHash == 8 or $talentnode->nodeHash == 9) {                            
-                                                                                        $weapon->perk3 = $weapon->perk3 . " // " . $talentstep->nodeStepName;
+                                                                                   if($node->state == 3) {                                               
+
+                                                                                           if($node->nodeHash == 0) {
+                                                                                                $weapon->perk3 = $weapon->perk3 . " || " . $talentstep->nodeStepName;                                                                                        
+                                                                                           }     
+                                                                                           else if($node->nodeHash < 7) {
+                                                                                                $weapon->perk2 = $weapon->perk2 . " || " . $talentstep->nodeStepName;                                                                                        
+                                                                                           }
+                                                                                           else {
+                                                                                                $weapon->perk3 = $weapon->perk3 . " || " . $talentstep->nodeStepName;                                                                                        
+                                                                                           }
+
+                                                                                   }
                                                                                 }
-                                                                                
 
                                                                         }
                                                                 }
@@ -108,6 +134,9 @@ function getWeaponInfo($jsoninput) {
                                                 }
                                         }
                                     
+                                        $weapon->perk1 = str_replace("'", "", substr($weapon->perk1, 4));                            
+                                        $weapon->perk2 = str_replace("'", "", substr($weapon->perk2, 4));
+                                        $weapon->perk3 = str_replace("'", "", substr($weapon->perk3, 4));                            
                                         $weapon->perk4 = "";
                                         $weapon->perk5 = "";                            
 
@@ -158,15 +187,15 @@ $fwc_warlock_jsonstr = curl_exec($ch);
 $fwc_warlock_weapon_array = getWeaponInfo($fwc_warlock_jsonstr);
 
 //VANGUARD QUARTER MASTER
-$vqmURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2668878854/" . "?definitions=true";
-curl_setopt($ch, CURLOPT_URL, $vqmURL);
+$vanguard_quartermaster_warlock_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/2668878854/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $vanguard_quartermaster_warlock_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr8 = curl_exec($ch);
-$vqmWeaponArray = getWeaponInfo($jsonstr8);
+$vanguard_quartermaster_warlock_json = curl_exec($ch);
+$vanguard_quartermaster_warlock_array = getWeaponInfo($vanguard_quartermaster_warlock_json);
 
 //CRUCIBLE QUARTER MASTER
 $cqmURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3658200622/" . "?definitions=true";
@@ -207,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $result = pg_query($query);
         }
 
-        foreach($vqmWeaponArray as $weapon) {       
+        foreach($vanguard_quartermaster_warlock_array as $weapon) {       
                 $query = "INSERT INTO VendorWeapon(VendorName,WeaponName,WeaponType,Perks1,Perks2,Perks3,Perks4,Perks5) 
                           VALUES ('Vanguard Quartermaster','$weapon->itemname','$weapon->itemtype','$weapon->perk1','$weapon->perk2','$weapon->perk3','$weapon->perk4','$weapon->perk5')";  
                 $result = pg_query($query);
@@ -253,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<div class='table-responsive'>";
         echo "<table class='table table-bordered table-striped'>";
         echo "<thead>";
-        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> <th>Perks 4</th> <th>Perks 5</th> </tr>";
+        echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Perks 3</th> </tr>";
         echo "</thead>";
 
          foreach($newmonarchy_warlock_weapon_array as $weapon) {       
@@ -264,8 +293,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
                 echo "<td>" . $weapon->perk3 . "</td>";                
-                echo "<td>" . $weapon->perk4 . "</td>";
-                echo "<td>" . $weapon->perk5 . "</td>";
                 echo "</tr>";
         }
 
@@ -277,8 +304,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
                 echo "<td>" . $weapon->perk3 . "</td>";   
-                echo "<td>" . $weapon->perk4 . "</td>";
-                echo "<td>" . $weapon->perk5 . "</td>";             
                 echo "</tr>";
         }
 
@@ -290,12 +315,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
                 echo "<td>" . $weapon->perk3 . "</td>";  
-                echo "<td>" . $weapon->perk4 . "</td>";
-                echo "<td>" . $weapon->perk5 . "</td>";              
                 echo "</tr>";
         }
 
-        foreach($vqmWeaponArray as $weapon) {       
+        foreach($vanguard_quartermaster_warlock_array as $weapon) {       
                 echo "<tr>" ;
                 echo "<td>" . "Vanguard Quartermaster" . "</td>";
                 echo "<td>" . $weapon->itemname . "" . "</td>";
@@ -303,8 +326,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
                 echo "<td>" . $weapon->perk3 . "</td>";   
-                echo "<td>" . $weapon->perk4 . "</td>";
-                echo "<td>" . $weapon->perk5 . "</td>";             
                 echo "</tr>";
         }
 
@@ -316,8 +337,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<td>" . $weapon->perk1 . "</td>";
                 echo "<td>" . $weapon->perk2 . "</td>";
                 echo "<td>" . $weapon->perk3 . "</td>";  
-                echo "<td>" . $weapon->perk4 . "</td>";
-                echo "<td>" . $weapon->perk5 . "</td>";              
                 echo "</tr>";
         }
 
