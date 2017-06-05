@@ -1,0 +1,175 @@
+/* navbar */
+
+.navbar {
+    background-color: #485563;
+    border-color: #485563;
+    margin-bottom: 0;
+    !important
+    z-index: 10;
+    border-radius: 0;
+}
+
+.masthead img {
+    width: 100%;
+}
+
+.masthead {
+    background-image: url(../img/009.jpg);
+    height: 550px;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top left;
+    background-size: 100%;
+    padding-top: 0;
+}
+
+#main-nav.affix {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.navbar-inner {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    padding-left: 40px;
+}
+
+@media screen and (min-width:768px) {
+    .navbar-brand-centered {
+        background-image: url(../img/destiny-logo.jpg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 90px;
+        position: absolute;
+        left: 50%;
+        display: block;
+        text-align: center;
+        background-color: #eee;
+    }
+    .navbar>.container .navbar-brand-centered,
+    .navbar>.container-fluid .navbar-brand-centered {
+        margin-left: -80px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+    .masthead {
+        height: 100px;
+        background-size: 100%;
+        background-position: center;
+    }
+    .navbar-inner {
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        margin-left: -40px;
+        margin-right: -40px;
+        padding-left: 80px;
+    }
+}
+
+@media (max-width: 767px) {
+    .masthead {
+        height: 125px;
+        background-size: 100%;
+    }
+    .navbar-inner {
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        margin-left: -40px;
+        margin-right: -40px;
+        padding-left: 40px;
+    }
+}
+
+/* Sidebar */
+
+.sidebar1 {
+    background: #F17153;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#485563, #29323c);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#485563, #29323c);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#485563, #29323c);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#485563, #29323c);
+    /* Standard syntax */
+    padding: 0px;
+}
+
+.logo {
+    max-height: 130px;
+}
+
+.logo>img {
+    margin-top: 30px;
+    padding: 3px;
+    border: 3px solid white;
+    border-radius: 100%;
+}
+
+.list {
+    color: #fff;
+    list-style: none;
+    padding-left: 0px;
+}
+
+a {
+    color: #fff;
+    list-style: none;
+    padding-left: 0px;
+}
+
+a:hover {
+    color: #fff;
+}
+
+.list::first-line {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.list> li,
+h5 {
+    padding: 5px 0px 5px 40px;
+}
+
+.list>li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-left: 5px solid white;
+    color: white;
+    font-weight: bolder;
+    padding-left: 35px;
+}
+
+.main-content {
+    text-align: center;
+    padding-top:120px;
+    z-index: 0;
+}
+
+.offset {
+    margin-left: 17%;
+}
+
+.affix-top,.affix{
+ position: static;
+}
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	width:228px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:50px;
+    width:228px;
+  }
+}
