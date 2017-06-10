@@ -1,2 +1,10 @@
 
 /* Standard Elements */
+
+body {
+    background-color: #f0f0f0;
+}
+
+.title {
+    font-variant: small-caps;
+}

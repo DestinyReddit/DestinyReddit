@@ -24,6 +24,28 @@
     padding-top: 0;
 }
 
+.masthead-armor {
+    background-image: url(../img/002.jpg);
+    height: 550px;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top left;
+    background-size: 100%;
+    padding-top: 0;
+}
+
+.masthead-weapons {
+    background-image: url(../img/004.jpg);
+    height: 550px;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top left;
+    background-size: 100%;
+    padding-top: 0;
+}
+
 #main-nav.affix {
     position: fixed;
     top: 0;
@@ -90,7 +112,7 @@
 /* Sidebar */
 
 .sidebar1 {
-    background: #F17153;
+    background: #000;
     /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(#485563, #29323c);
     /* For Safari 5.1 to 6.0 */
@@ -101,6 +123,7 @@
     background: linear-gradient(#485563, #29323c);
     /* Standard syntax */
     padding: 0px;
+    width: 228px;
 }
 
 .logo {
