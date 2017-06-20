@@ -4,8 +4,7 @@
     background-color: #485563;
     border-color: #485563;
     margin-bottom: 0;
-    !important
-    z-index: 10;
+    !important z-index: 10;
     border-radius: 0;
 }
 
@@ -16,34 +15,26 @@
 .masthead {
     background-image: url(../img/009.jpg);
     height: 550px;
-    min-height: 100%;
+    min-width: 1280px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: top left;
-    background-size: 100%;
-    padding-top: 0;
 }
 
 .masthead-armor {
-    background-image: url(../img/002.jpg);
-    height: 550px;
-    min-height: 100%;
+    background-image: url(../img/skinny/001.png);
+    height: 100px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: top left;
-    background-size: 100%;
-    padding-top: 0;
 }
 
 .masthead-weapons {
-    background-image: url(../img/004.jpg);
-    height: 550px;
-    min-height: 100%;
+    background-image: url(../img/skinny/002.png);
+    height: 100px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: top left;
-    background-size: 100%;
-    padding-top: 0;
 }
 
 #main-nav.affix {
@@ -109,6 +100,7 @@
     }
 }
 
+
 /* Sidebar */
 
 .sidebar1 {
@@ -124,6 +116,7 @@
     /* Standard syntax */
     padding: 0px;
     width: 228px;
+    height: 1920px;
 }
 
 .logo {
@@ -157,7 +150,7 @@ a:hover {
     color: rgba(255, 255, 255, 0.5);
 }
 
-.list> li,
+.list>li,
 h5 {
     padding: 5px 0px 5px 40px;
 }
@@ -172,7 +165,7 @@ h5 {
 
 .main-content {
     text-align: center;
-    padding-top:120px;
+    padding-top: 120px;
     z-index: 0;
 }
 
@@ -180,19 +173,19 @@ h5 {
     margin-left: 17%;
 }
 
-.affix-top,.affix{
- position: static;
+.affix-top,
+.affix {
+    position: static;
 }
 
 @media (min-width: 979px) {
-  #sidebar.affix-top {
-    position: static;
-  	width:228px;
-  }
-  
-  #sidebar.affix {
-    position: fixed;
-    top:50px;
-    width:228px;
-  }
+    #sidebar.affix-top {
+        position: static;
+        width: 228px;
+    }
+    #sidebar.affix {
+        position: fixed;
+        top: 50px;
+        width: 228px;
+    }
 }

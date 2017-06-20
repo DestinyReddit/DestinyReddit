@@ -1,12 +1,10 @@
+<!DOCTYPE html>
+
 <?php
-
 require_once ('config.php');
-
 $db = pg_connect($POSTGRES_DB_STR) or die('Could not connect: ' . pg_last_error());
-
 $query = "SELECT * FROM VendorArmor";  
 $result = pg_query($query);
-
 ?>
     <html>
 
@@ -14,24 +12,18 @@ $result = pg_query($query);
         <title>Welcome to /r/DTG/</title>
 
         <!-- CSS -->
+       
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="./static/css/main.css">
-        <link rel="stylesheet" type="text/css" href="./static/css/nav.css">
-        <link rel="stylesheet" type="text/css" href="./static/css/tables.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="./static/css/nav.css?ver=2">
+         <link rel="stylesheet" type="text/css" href="./static/css/tables.css?ver=4">
+        <link rel="stylesheet" type="text/css" href="./static/css/jquery.dataTables.css">
 
         <!-- JS -->
         <script src="./static/js/jquery-3.2.1.min.js"></script>
         <script src="./static/js/bootstrap.min.js"></script>
 
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
-        <style>
-            * {
-                font-size: 13px;
-                line-height: 1.4;
-            }
-
-        </style>
     </head>
 
     <body>
@@ -59,23 +51,15 @@ $result = pg_query($query);
                         <div class="left-navigation">
                             <ul class="list">
                                 <h5><strong>LINKS</strong></h5>
-                                <li><a href="vendors.php">Vendor Armor</a></li>
+                                <li><a href="https://goo.gl/xgpzbX">Discuss this on Reddit</a></li>
                                 <li><a href="vendorweapons.php">Vendor Weapons</a></li>
                             </ul>
                             <br>
                             <ul class="list">
                                 <h5><strong>/r/DTG LINKS</strong></h5>
-                                <li><a href="http://redd.it/6e05bz">Mentor Monday</a></li>
-                                <li><a href="http://redd.it/6e76y4">Team Up Tuesday</a></li>
-                                <li><a href="http://redd.it/6eenr2">RANT WEDNESDAY</a></li>
-                                <li><a href="http://redd.it/6emkvm">Lore Thursday</a></li>
-                                <li><a href="http://redd.it/6eu84r">Free Talk Friday!</a></li>
-                                <li><a href="http://redd.it/6e671f">Weekly Reset Thread</a></li>
-                                <li><a href="http://redd.it/6e67fh">Weekly Vendor Reset Megathread</a></li>
-                                <li><a href="http://redd.it/6e76zk">Weekly Loot Hub</a></li>
-                                <li><a href="http://redd.it/6eenr2">Armsday Rolls, week 91</a></li>
-                                <li><a href="http://redd.it/6et8b1">Xur Megathread</a></li>
-                                <li><a href="http://redd.it/6evn5g">Trials of Osiris Megathread</a></li>
+                                <li><a href="https://www.reddit.com/r/DestinyTheGame">Back to the subreddit</a></li>
+                                <li><a href="https://discord.gg/DestinyReddit">Destiny Discord</a></li>
+                                <li><a href="https://www.reddit.com/message/compose?to=%2Fr%2FDestinyTheGame&subject=DestinyReddit%20Site">Contact Info</a></li>
                             </ul>
                         </div>
                     </div>
@@ -85,20 +69,17 @@ $result = pg_query($query);
                         <h1 class="title">Vendor Armor - 6/6/2017</h1>
                         <br><br>
                         <?php
-
         echo "<div class='container'>";
         echo "<div class='row'>";
         echo "<div class='col-md-12'>";
         
-        echo "<div class='table-responsive'>";        
-        echo "<table class='table table-bordered table-striped' id='vendorarmor vendor-table'>";
+        echo "<div class='table-responsive vendor-table'>";        
+        echo "<table class='table table-bordered table-striped' id='vendorarmor'>";
         echo "<thead>";
         echo "<tr><th>Vendor</th> <th>Name</th> <th>Type</th> <th>Perks 1</th> <th>Perks 2</th> <th>Int</th> <th>Dis</th> <th>Str</th> <th>Roll%</th> <th>T12</th> </tr>";
         echo "</thead>";
-
         echo "<tbody>";
         while ($row = pg_fetch_array($result))  {
-
             echo "<tr>" ;
             echo "<td>" . $row[1] . "</td>";
             echo "<td>" . $row[2] . "</td>";
@@ -115,7 +96,6 @@ $result = pg_query($query);
         echo "</tbody>";
         echo "</table>";
         echo "</div>";
-
         echo "</div>";
         echo "</div>";
         echo "</div>";
@@ -132,7 +112,6 @@ $result = pg_query($query);
                     "paging": false
                 });
             })
-
         </script>
 
         <script type="text/javascript">
@@ -151,10 +130,9 @@ $result = pg_query($query);
             var navHeight = $('.navbar').outerHeight(true);
             $body.scrollspy({
                 target: '#leftCol',
-                offset: navHeight
+                offset: '100px'
             });
-
         </script>
     </body>
 
-    </html>
+</html>

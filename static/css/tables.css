@@ -13,51 +13,59 @@ table {
     -webkit-box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.35);
 }
 
-#vendor-table {
+.vendor-table {
     margin: 0 auto;
-    font-size: 1.2em;
+    font-size:14px;
     margin-bottom: 15px;
+    overflow-x: inherit;
 }
 
-#vendor-table thead {
+.vendor-table thead {
     cursor: pointer;
-    background: #c9dff0;
+    background: #485563;
+    color: #FFF;
+    border: 5px solid #3e464f;
 }
 
-#vendor-table thead tr th {
+.vendor-table thead tr th {
     font-weight: bold;
     padding: 12px 30px;
     padding-left: 42px;
+    border-color: #3e464f;
+    border-width: 0;
 }
 
-#vendor-table thead tr th span {
+.vendor-table thead tr th span {
     padding-right: 20px;
     background-repeat: no-repeat;
     background-position: 100% 100%;
 }
 
-#vendor-table thead tr th.headerSortUp,
-#vendor-table thead tr th.headerSortDown {
-    background: #acc8dd;
+.vendor-table thead tr th.headerSortUp,
+.vendor-table thead tr th.headerSortDown {
+    background: #485563;
+    color: #FFF;
+    
 }
 
-#vendor-table thead tr th.headerSortUp span {
+.vendor-table thead tr th.headerSortUp span {
     background-image: url('https://i.imgur.com/SP99ZPJ.png');
 }
 
-#vendor-table thead tr th.headerSortDown span {
+.vendor-table thead tr th.headerSortDown span {
     background-image: url('https://i.imgur.com/RkA9MBo.png');
 }
 
-#vendor-table tbody tr {
+.vendor-table tbody tr {
     color: #555;
+    
 }
 
-#vendor-table tbody tr td {
+.vendor-table tbody tr td {
     text-align: center;
     padding: 15px 10px;
 }
 
-#vendor-table tbody tr td.lalign {
+.vendor-table tbody tr td.lalign {
     text-align: left;
 }
