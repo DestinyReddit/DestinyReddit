@@ -189,16 +189,38 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 $jsonstr3 = curl_exec($ch);
 $hunterArmorArray = getArmorInfo($jsonstr3);
 
-//CRUCIBLE
-$crucibleURL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3746647075/" . "?definitions=true";
-curl_setopt($ch, CURLOPT_URL, $crucibleURL);
+//CRUCIBLE TITAN
+$crucible_titan_URL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/3746647075/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $crucible_titan_URL);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'X-API-KEY: '.$BUNGIE_API_X,
         'Authorization: Bearer '.$accesstoken
 ));
-$jsonstr4 = curl_exec($ch);
-$crucibleArray = getArmorInfo($jsonstr4);
+$crucible_titan_jsonstr = curl_exec($ch);
+$crucible_titan_Array = getArmorInfo($crucible_titan_jsonstr);
+
+//CRUCIBLE HUNTER
+$crucible_hunter_URL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $hunter_character_id . "/Vendor/3746647075/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $crucible_hunter_URL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$crucible_hunter_jsonstr = curl_exec($ch);
+$crucible_hunter_Array = getArmorInfo($crucible_hunter_jsonstr);
+
+//CRUCIBLE WARLOCK
+$crucible_warlock_URL = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $warlock_character_id . "/Vendor/3746647075/" . "?definitions=true";
+curl_setopt($ch, CURLOPT_URL, $crucible_warlock_URL);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'X-API-KEY: '.$BUNGIE_API_X,
+        'Authorization: Bearer '.$accesstoken
+));
+$crucible_warlock_jsonstr = curl_exec($ch);
+$crucible_warlock_Array = getArmorInfo($crucible_warlock_jsonstr);
 
 //NEW MONARCHY TITAN
 $newmonarchy_titan_url = "https://www.bungie.net/Platform/Destiny/" . $membership_type . "/MyAccount/Character/" . $titan_character_id . "/Vendor/1808244981/" . "?definitions=true";
@@ -361,81 +383,93 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $result = pg_query($query);
         }
 
-        foreach($crucibleArray as $armor) {       
+        foreach($crucible_titan_Array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Crucible','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Crucible (Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($crucible_hunter_Array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Crucible (Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                $result = pg_query($query);
+        }
+
+        foreach($crucible_warlock_Array as $armor) {       
+                $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
+                          VALUES ('Crucible' (Warlock),'$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($newmonarchy_titan_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('New Monarchy(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('New Monarchy (Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($newmonarchy_hunter_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('New Monarchy(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('New Monarchy (Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($newmonarchy_warlock_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('New Monarchy(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('New Monarchy (Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($deadorbit_titan_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Dead Orbit(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Dead Orbit (Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($deadorbit_hunter_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Dead Orbit(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Dead Orbit (Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($deadorbit_warlock_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Dead Orbit(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Dead Orbit (Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($fwc_titan_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Future War cult(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Future War Cult (Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($fwc_hunter_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Future War cult(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Future War Cult (Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($fwc_warlock_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Future War cult(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Future War Cult (Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($speaker_titan_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Speaker(Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Speaker (Titan)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($speaker_hunter_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Speaker(Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Speaker (Hunter)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
         foreach($speaker_warlock_array as $armor) {       
                 $query = "INSERT INTO VendorArmor(VendorName,ArmorName,ArmorType,Perks1,Perks2,Perks3,Intelligence,Discipline,Strength,RollPercent,T12) 
-                          VALUES ('Speaker(Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
+                          VALUES ('Speaker (Warlock)','$armor->itemname','$armor->itemtype','$armor->perk1','$armor->perk2','$armor->perk3','$armor->intellect','$armor->discipline','$armor->strength','$armor->roll','$armor->t12')";  
                 $result = pg_query($query);
         }
 
@@ -526,9 +560,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "</tr>";
         }
 
-         foreach($crucibleArray as $armor) {       
+        foreach($crucible_titan_Array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Crucible" . "</td>";
+                echo "<td>" . "Crucible (Titan)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($crucible_hunter_Array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Crucible (Hunter)" . "</td>";
+                echo "<td>" . $armor->itemname . "" . "</td>";
+                echo "<td>" . $armor->itemtype . "" . "</td>";                        
+                echo "<td>" . $armor->perk1 . "</td>";
+                echo "<td>" . $armor->perk2 . "</td>";
+                echo "<td>" . $armor->intellect . "</td>";
+                echo "<td>" . $armor->discipline . "</td>";
+                echo "<td>" . $armor->strength . "</td>";
+                echo "<td>" . $armor->roll . "%" . "</td>";
+                echo "<td>" . $armor->t12 . "</td>";
+                echo "</tr>";
+        }
+
+        foreach($crucible_warlock_Array as $armor) {       
+                echo "<tr>" ;
+                echo "<td>" . "Crucible (Warlock)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -543,7 +607,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($newmonarchy_titan_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "New Monarchy(Titan)" . "</td>";
+                echo "<td>" . "New Monarchy (Titan)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -558,7 +622,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($newmonarchy_hunter_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "New Monarchy(Hunter)" . "</td>";
+                echo "<td>" . "New Monarchy (Hunter)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -573,7 +637,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($newmonarchy_warlock_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "New Monarchy(Warlock)" . "</td>";
+                echo "<td>" . "New Monarchy (Warlock)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -588,7 +652,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
          foreach($deadorbit_titan_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Dead Orbit(Titan)" . "</td>";
+                echo "<td>" . "Dead Orbit (Titan)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -603,7 +667,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($deadorbit_hunter_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Dead Orbit(Hunter)" . "</td>";
+                echo "<td>" . "Dead Orbit (Hunter)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -618,7 +682,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($deadorbit_warlock_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Dead Orbit(Warlock)" . "</td>";
+                echo "<td>" . "Dead Orbit (Warlock)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -633,7 +697,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($fwc_titan_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Future War cult(Titan)" . "</td>";
+                echo "<td>" . "Future War Cult (Titan)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -648,7 +712,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($fwc_hunter_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Future War cult(Hunter)" . "</td>";
+                echo "<td>" . "Future War Cult (Hunter)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -663,7 +727,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($fwc_warlock_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Future War cult(Warlock)" . "</td>";
+                echo "<td>" . "Future War Cult (Warlock)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -678,7 +742,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($speaker_titan_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Speaker(Titan)" . "</td>";
+                echo "<td>" . "Speaker (Titan)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -693,7 +757,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($speaker_hunter_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Speaker(Hunter)" . "</td>";
+                echo "<td>" . "Speaker (Hunter)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
@@ -708,7 +772,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach($speaker_warlock_array as $armor) {       
                 echo "<tr>" ;
-                echo "<td>" . "Speaker(Warlock)" . "</td>";
+                echo "<td>" . "Speaker (Warlock)" . "</td>";
                 echo "<td>" . $armor->itemname . "" . "</td>";
                 echo "<td>" . $armor->itemtype . "" . "</td>";                        
                 echo "<td>" . $armor->perk1 . "</td>";
