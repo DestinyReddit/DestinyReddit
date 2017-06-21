@@ -43,7 +43,8 @@ $result = pg_query($query);
             <div class="row">
                 <div class="col-md-2 sidebar1">
                     <div class="container sidebar1" id="sidebar">
-                        <div class="logo"> <img src="./static/img/Raid_Emblem.png" class="rounded" alt="Logo" style="max-width:175px; border:0; padding-left: 40px;"> </div>
+                        <div class="logo"> <a href="index-test.html"> <img src="./static/img/Raid_Emblem.png" class="rounded" alt="Logo" style="max-width:175px; border:0; padding-left: 40px;"></a> </div>
+
                         <br>
                         <br>
                         <br>
@@ -132,5 +133,5 @@ $result = pg_query($query);
             });
         </script>
     </body>
-
     </html>
+
