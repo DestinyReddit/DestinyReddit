@@ -24,15 +24,16 @@ table {
     cursor: pointer;
     background: #485563;
     color: #FFF;
-    border: 5px solid #3e464f;
+    border: 1px solid #3e464f;
 }
 
 .vendor-table thead tr th {
     font-weight: bold;
-    padding: 12px 30px;
+    padding: 10px 18px;
     padding-left: 42px;
     border-color: #3e464f;
     border-width: 0;
+    white-space: nowrap;
 }
 
 .vendor-table thead tr th span {
