@@ -26,5 +26,5 @@ CREATE TABLE VendorWeapon(
    Perks2 TEXT,
    Perks3 TEXT,
    Perks4 TEXT,
-   Perks5 TEXT,   
+   Perks5 TEXT
 );
